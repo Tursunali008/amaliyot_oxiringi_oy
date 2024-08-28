@@ -1,5 +1,5 @@
 import 'package:amaliyot_oxiringi_oy/core/constants/app_constants.dart';
-import 'package:amaliyot_oxiringi_oy/ui/onboarding/view/onboarding_page.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/splash/models/onboarding_screen.dart';
 import 'package:amaliyot_oxiringi_oy/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 

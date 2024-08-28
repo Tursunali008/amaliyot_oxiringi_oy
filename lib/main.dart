@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       minTextAdapt: true,
       child: MaterialApp(
-        title: 'Shirinim',
+        title: 'Amaliyot oxiringi oy',
         debugShowCheckedModeBanner: false,
         theme: Themes.light,
         home: const WelcomeScreen(),

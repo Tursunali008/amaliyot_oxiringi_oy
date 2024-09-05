@@ -13,6 +13,7 @@ class AuthSuccess extends AuthState {
   final String message;
 
   AuthSuccess(this.message);
+  
 
   @override
   List<Object> get props => [message];

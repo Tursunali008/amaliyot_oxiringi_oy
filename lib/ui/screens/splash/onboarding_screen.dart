@@ -1,131 +1,67 @@
-import 'package:amaliyot_oxiringi_oy/ui/screens/splash/choose_auth_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/splash/choose_auth_screen.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class SplashScreen2 extends StatefulWidget {
+  const SplashScreen2({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  State<SplashScreen2> createState() => _SplashScreen2State();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen>
-    with SingleTickerProviderStateMixin {
-  final PageController _controller = PageController();
-  late AnimationController _animationController;
+class _SplashScreen2State extends State<SplashScreen2> {
+  final List<SplashPageData> _pages = const [
+    SplashPageData(
+      image: "assets/images/on_1.png",
+      title: "Share Your Recipes",
+      description: "Lorem ipsum dolor sit amet, consectetur elit.",
+    ),
+    SplashPageData(
+      image: "assets/images/on_2.png",
+      title: "Cook with Friends",
+      description: "Share and enjoy recipes with friends.",
+    ),
+    SplashPageData(
+      image: "assets/images/on_3.png",
+      title: "Discover New Flavors",
+      description: "Explore new recipes and cooking methods.",
+    ),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-
-    _controller.addListener(() {
-      setState(() {});
-      if (_controller.page == 2) {
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const CreateAccountScreen(),
-            ),
-          );
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
+  int _currentPage = 0;
+  double _opacity = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          PageView.builder(
-            controller: _controller,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              final double pageOffset =
-                  _controller.hasClients && _controller.position.haveDimensions
-                      ? _controller.page ?? 0
-                      : 0;
-              final double opacity =
-                  1 - (pageOffset - index).abs().clamp(0.0, 1.0);
-              return AnimatedOpacity(
-                opacity: opacity,
-                duration: const Duration(milliseconds: 500),
-                child: buildOnboardingPage(
-                  image: 'assets/images/on_${index + 1}.png',
-                  title: index == 0
-                      ? 'Share Your Recipes'
-                      : index == 1
-                          ? 'Learn to Cook'
-                          : 'Become a Master Chef',
-                  description:
-                      'Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut.',
-                ),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 10.0,
-            child: buildPageIndicator(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildOnboardingPage(
-      {required String image,
-      required String title,
-      required String description}) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(image),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 60.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.1),
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.grey,
+      body: GestureDetector(
+        onPanUpdate: (details) {
+          if (details.delta.dx > 0) {
+            // Swiping Right (Previous Page)
+            _goToPreviousPage();
+          } else if (details.delta.dx < 0) {
+            // Swiping Left (Next Page)
+            _goToNextPage();
+          }
+        },
+        child: Stack(
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 28,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            AnimatedOpacity(
+              opacity: _opacity,
+              duration: const Duration(milliseconds: 500),
+              child: SplashPage(
+                data: _pages[_currentPage],
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              description,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.white,
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: LinearProgressIndicator(
+                value: (_currentPage + 1) / _pages.length,
+                backgroundColor: Colors.grey[300],
+                color: Colors.teal,
+                minHeight: 5,
               ),
             ),
           ],
@@ -134,25 +70,102 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-  Widget buildPageIndicator() {
-    return SmoothPageIndicator(
-      controller: _controller,
-      count: 3,
-      effect: CustomizableEffect(
-        activeDotDecoration: DotDecoration(
-          width: 30.0,
-          height: 8.0,
-          color: const Color(0xff3FB4B1),
-          borderRadius: BorderRadius.circular(8.0),
+  void _goToPreviousPage() {
+    if (_currentPage > 0) {
+      _animatePageChange(_currentPage - 1);
+    }
+  }
+
+  void _goToNextPage() {
+    if (_currentPage < _pages.length - 1) {
+      _animatePageChange(_currentPage + 1);
+    } else {
+      _navigateToRegisterScreen();
+    }
+  }
+
+  void _animatePageChange(int newPage) {
+    setState(() {
+      _opacity = 0.8;
+    });
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _currentPage = newPage;
+        _opacity = 1.0;
+      });
+    });
+  }
+
+  void _navigateToRegisterScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => CreateAccountScreen()),
+    );
+  }
+}
+
+class SplashPageData {
+  final String image;
+  final String title;
+  final String description;
+
+  const SplashPageData({
+    required this.image,
+    required this.title,
+    required this.description,
+  });
+}
+
+class SplashPage extends StatelessWidget {
+  final SplashPageData data;
+
+  const SplashPage({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            data.image,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
         ),
-        dotDecoration: DotDecoration(
-          width: 30.0,
-          height: 8.0,
-          color: Colors.grey.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(8.0),
+        Container(
+          color: Colors.black54,
         ),
-        spacing: 0.0,
-      ),
+        Positioned(
+          top: MediaQuery.of(context).size.height * 0.65,
+          left: 20,
+          right: 20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                data.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                data.description,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

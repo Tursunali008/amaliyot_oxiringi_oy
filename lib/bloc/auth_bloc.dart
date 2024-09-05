@@ -1,3 +1,4 @@
+import 'package:amaliyot_oxiringi_oy/logic/repositories/auth_repository.dart';
 import 'package:amaliyot_oxiringi_oy/repository/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,7 @@ import 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
 
-  AuthBloc(this.authService) : super(AuthInitial()) {
+  AuthBloc(this.authService, {required AuthRepository authRepository}) : super(AuthInitial()) {
     on<RegisterEvent>(_onRegister);
     on<LoginEvent>(_onLogin);
     on<ForgotPasswordEvent>(_onForgotPassword);
@@ -46,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final token = response.data['token'] ?? '';
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
-
+      
       emit(AuthSuccess(response.data['message'] ?? 'Login successful'));
     } catch (e) {
       emit(AuthFailure(e.toString()));

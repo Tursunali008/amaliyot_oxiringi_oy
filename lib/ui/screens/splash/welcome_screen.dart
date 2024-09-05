@@ -1,83 +1,101 @@
-import 'package:amaliyot_oxiringi_oy/ui/screens/splash/onboarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:amaliyot_oxiringi_oy/core/gen/assets.gen.dart';
+import 'package:amaliyot_oxiringi_oy/logic/blocs/auth/auth_bloc.dart';
+import 'package:amaliyot_oxiringi_oy/logic/blocs/auth/auth_event.dart';
+import 'package:amaliyot_oxiringi_oy/logic/blocs/auth/auth_state.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/main/home_screen.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/splash/onboarding_screen.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+class WelcomePage extends StatefulWidget {
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  void initState() {
+    BlocProvider.of<AuthBloc>(context).add(AppStartedEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff3FB4B1),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    color: Colors.white,
-                    height: 200,
-                  ),
-                  const Text(
-                    'Meals On\nDemand',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 300),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(_createRoute());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: const Text(
-                      "Let's start",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ],
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        Future.delayed(Duration(seconds: 1), () {
+          if (state is AuthAuthenticated) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+          } else if (state is AuthUnauthenticated) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => SplashScreen2()),
+            );
+          }
+        });
+      },
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            width: double.infinity,
+            height: 860,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(63, 180, 177, 1),
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.png'),
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Gap(240),
+                Assets.images.logo.image(),
+                Text(
+                  'Meals On\n Demand',
+                  style: TextStyle(
+                      height: 1,
+                      fontSize: 40,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return SplashScreen2();
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    width: 209,
+                    height: 60,
+                    child: Center(
+                      child: Text(
+                        'Let’s start',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Gap(80),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
-    );
-  }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          OnboardingScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = 0.0;
-        const end = 1.0;
-        final tween = Tween(begin: begin, end: end);
-        final fadeAnimation = animation.drive(tween);
-
-        return FadeTransition(
-          opacity: fadeAnimation,
-          child: child,
-        );
-      },
     );
   }
 }

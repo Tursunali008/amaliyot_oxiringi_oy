@@ -1,11 +1,10 @@
-import 'package:amaliyot_oxiringi_oy/ui/screens/auth/register_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/auth/login_screen.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/auth/register_screen.dart';
 
 class CreateAccountScreen extends StatelessWidget {
-  const CreateAccountScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +78,7 @@ class CreateAccountScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
+                          builder: (context) => RegisterScreen(),
                         ));
                       },
                       style: ElevatedButton.styleFrom(
@@ -91,9 +90,18 @@ class CreateAccountScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      child: const Text(
-                        'Register using email',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.mail_outline,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Register using email',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -118,7 +126,7 @@ class CreateAccountScreen extends StatelessWidget {
                                 side: const BorderSide(color: Colors.grey),
                               ),
                             ),
-                            icon: const Icon(Icons.mail, color: Colors.red),
+                            icon: Icon(Icons.email),
                             label: const Text(''),
                           ),
                         ),
@@ -163,7 +171,14 @@ class CreateAccountScreen extends StatelessWidget {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  // Navigate to login page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (ctx) {
+                                        return LoginScreen();
+                                      },
+                                    ),
+                                  );
                                 },
                             ),
                           ],

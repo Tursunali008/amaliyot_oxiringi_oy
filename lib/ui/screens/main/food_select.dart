@@ -52,7 +52,6 @@ class FoodSelectionScreen extends StatelessWidget {
                 Center(
                   child: Image.asset('assets/images/nood.png'),
                 )
-                // Add other food items similarly...
               ],
             ),
           ),

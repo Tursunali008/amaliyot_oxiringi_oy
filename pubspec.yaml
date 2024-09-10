@@ -44,12 +44,17 @@ dependencies:
   equatable: ^2.0.5
   bloc: ^8.1.4
   flutter_bloc: ^8.1.6
-  shared_preferences: ^2.3.2
   gap: ^3.0.1
   image_picker: ^1.1.2
   cached_network_image: ^3.4.1
   flutter_gen: ^5.7.0
   auto_route: ^9.2.2
+  firebase_core: ^2.24.2
+  google_sign_in: ^6.2.1
+  flutter_screenutil: ^5.9.3
+  flutter_facebook_auth: ^7.1.1
+  get_it: ^7.7.0
+  form_field_validator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

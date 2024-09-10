@@ -7,4 +7,5 @@ environment:
 
 dependencies:
   equatable: ^2.0.5
+  google_sign_in: ^6.2.1
   uuid: ^3.0.0

@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "989599461224",
+    "project_id": "amaliyot-oxiringi-oy",
+    "storage_bucket": "amaliyot-oxiringi-oy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989599461224:android:ffff1fa44ee007c3bef0dd",
+        "android_client_info": {
+          "package_name": "com.example.ama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB75bAAyylGMZu2ah7mlRCsjp57ESxKqt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989599461224-4tqt0okvree81mnbgerccod648sm8dro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.amaliyotOxiringiOy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989599461224:android:d462d48449fdd75dbef0dd",
+        "android_client_info": {
+          "package_name": "com.example.amaliyot_oxir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB75bAAyylGMZu2ah7mlRCsjp57ESxKqt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989599461224-4tqt0okvree81mnbgerccod648sm8dro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.amaliyotOxiringiOy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989599461224:android:b39a50ec467d6adfbef0dd",
+        "android_client_info": {
+          "package_name": "com.example.amaliyot_oxiringi_oy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB75bAAyylGMZu2ah7mlRCsjp57ESxKqt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989599461224-683ekkqksh8kqh8uu7i5400ug467o37s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989599461224-4tqt0okvree81mnbgerccod648sm8dro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.amaliyotOxiringiOy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:amaliyot_oxiringi_oy/logic/blocs/auth/auth_bloc.dart';
-import 'package:amaliyot_oxiringi_oy/logic/repositories/auth_repository.dart';
-import 'package:amaliyot_oxiringi_oy/logic/services/auth_service.dart';
-import 'package:amaliyot_oxiringi_oy/ui/screens/main/country_select.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:amaliyot_oxiringi_oy/blocs/auth/auth_bloc.dart';
+import 'package:amaliyot_oxiringi_oy/core/core.dart';
+import 'package:amaliyot_oxiringi_oy/core/di/di.dart';
+import 'package:amaliyot_oxiringi_oy/data/repositories/auth_repository.dart';
+import 'package:amaliyot_oxiringi_oy/data/repositories/user_repository.dart';
+import 'package:amaliyot_oxiringi_oy/ui/screens/screens.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dependencyInit();
   runApp(const MyApp());
 }
 
@@ -15,25 +19,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(
-              authRepository: AuthRepository(authService: AuthService())),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      splitScreenMode: true,
+      minTextAdapt: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthBloc(
+              authRepository: getIt.get<AuthRepository>(),
+              userRepository: getIt.get<UserRepository>(),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'amaliyot_oxiringi_oy',
+          debugShowCheckedModeBanner: false,
+          theme: Themes.light,
+          home: const WelcomeScreen(),
         ),
-      ],
-      child: MaterialApp(
-        home: const CountrySelectionScreen(),
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          textTheme: GoogleFonts.dmSansTextTheme(),
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          textTheme: GoogleFonts.dmSansTextTheme(),
-        ),
-        themeMode: ThemeMode.system,
       ),
     );
   }

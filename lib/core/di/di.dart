@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:amaliyot_oxiringi_oy/core/network/dio_client.dart';
 import 'package:amaliyot_oxiringi_oy/data/repositories/auth_repository.dart';
 import 'package:amaliyot_oxiringi_oy/data/repositories/user_repository.dart';
@@ -11,8 +11,11 @@ import 'package:amaliyot_oxiringi_oy/data/services/user_service.dart';
 final getIt = GetIt.instance;
 
 Future<void> dependencyInit() async {
-  final prefs = await SharedPreferences.getInstance();
-  getIt.registerLazySingleton(() => prefs);
+  // Initialize Hive and open the required box
+  await Hive.initFlutter();
+  await Hive.openBox('authBox'); // Open a Hive box for storing auth data
+
+  // Register Dio client
   getIt.registerLazySingleton(() => DioClient(dio: Dio()));
 
   // Services

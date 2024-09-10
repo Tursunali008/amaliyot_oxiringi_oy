@@ -1,22 +1,19 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:amaliyot_oxiringi_oy/core/di/di.dart';
+import 'package:hive/hive.dart';
 import 'package:amaliyot_oxiringi_oy/data/models/auth/auth_response.dart';
 
 class AuthLocalService {
-  final _authKey = "tokenData";
+  final _authBox = Hive.box('authBox');
+  final _authKey = 'tokenData';
 
   Future<void> saveToken(AuthResponse auth) async {
-    final prefs = getIt.get<SharedPreferences>();
-    await prefs.setString(_authKey, auth.token);
+    await _authBox.put(_authKey, auth.token); // Save token in Hive
   }
 
   String? getToken() {
-    final prefs = getIt.get<SharedPreferences>();
-    return prefs.getString(_authKey);
+    return _authBox.get(_authKey); // Retrieve token from Hive
   }
 
   Future<void> deleteToken() async {
-    final prefs = getIt.get<SharedPreferences>();
-    await prefs.remove(_authKey);
+    await _authBox.delete(_authKey); // Delete token from Hive
   }
 }

@@ -8,7 +8,11 @@ import 'package:amaliyot_oxiringi_oy/data/repositories/auth_repository.dart';
 import 'package:amaliyot_oxiringi_oy/data/repositories/user_repository.dart';
 import 'package:amaliyot_oxiringi_oy/ui/screens/screens.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
+
+  await Hive.initFlutter(); // Initialize Hive
+  await Hive.openBox('authBox'); 
   WidgetsFlutterBinding.ensureInitialized();
   await dependencyInit();
   runApp(const MyApp());
